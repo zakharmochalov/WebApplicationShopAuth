@@ -17,12 +17,14 @@ namespace WebApplicationShop.Controllers
         public AccountController(AppDbContext context) => _context = context;
         // вход
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login(string? returnUrl = null)
         {
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -43,12 +45,14 @@ namespace WebApplicationShop.Controllers
         }
         // регистрация (для роли user)
         [HttpGet]
+        [AllowAnonymous]    
         public IActionResult Register()
         {
             return View();
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -79,6 +83,7 @@ namespace WebApplicationShop.Controllers
         }
 
         // запрет доступа
+        [AllowAnonymous]
         public IActionResult AccessDenied()
         {
             return View();

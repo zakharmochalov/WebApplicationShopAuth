@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplicationShop.Data;
 using WebApplicationShop.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApplicationShop.Controllers
 {
@@ -31,7 +32,7 @@ namespace WebApplicationShop.Controllers
 
             return View(vm);
         }
-
+        [Authorize(Policy = "CanEditProducts")]   // Admin и Manager
         public IActionResult Create()
         {
             var vm = new ProductFormViewModel
@@ -42,6 +43,7 @@ namespace WebApplicationShop.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "CanEditProducts")]
         public IActionResult Create(ProductFormViewModel vm)
         {
             if (!ModelState.IsValid)
@@ -59,6 +61,7 @@ namespace WebApplicationShop.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "CanEditProducts")]
         public IActionResult Edit(int id)
         {
             var product = _context.Products.Include(p => p.Categories).FirstOrDefault(p => p.Id == id);
@@ -73,6 +76,7 @@ namespace WebApplicationShop.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "CanEditProducts")]
         public IActionResult Edit(ProductFormViewModel vm)
         {
             if (!ModelState.IsValid)
@@ -92,6 +96,7 @@ namespace WebApplicationShop.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var product = _context.Products.Include(p => p.Categories).FirstOrDefault(p => p.Id == id);
@@ -100,6 +105,7 @@ namespace WebApplicationShop.Controllers
         }
        
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         [ActionName("Delete")]
         public IActionResult DeletePost(int id)
         {
