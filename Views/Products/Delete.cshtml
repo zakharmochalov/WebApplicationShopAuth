@@ -1,0 +1,10 @@
+@model WebApplicationShop.Models.Product
+
+<h1>Удалить товар</h1>
+<p>Вы уверены, что хотите удалить товар <b>«@Model.Name»</b>?</p>
+
+<form asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a asp-action="Index" class="btn btn-light">Отмена</a>
+</form>

@@ -1,0 +1,42 @@
+@model WebApplicationShop.Models.ProductsIndexViewModel
+
+<h1>Каталог товаров</h1>
+
+<form asp-action="Index" method="get">
+    <select name="categoryId" class="form-select mb-3" onchange="this.form.submit()">
+        <option value="">Все категории</option>
+        @foreach (var cat in Model.Categories)
+        {
+            <option value="@cat.Id" selected="@(Model.SelectedCategoryId == cat.Id)">
+                @cat.Name
+            </option>
+        }
+    </select>
+</form>
+
+<a asp-action="Create" class="btn btn-primary mb-3">Добавить товар</a>
+
+<div class="row">
+    @foreach (var product in Model.Products)
+    {
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@product.Name</h5>
+                    <p class="card-text">@product.Description</p>
+                    <p class="card-text"><strong>@product.Price ₽</strong></p>
+                    <div>
+                        @foreach (var cat in product.Categories)
+                        {
+                            <span class="badge bg-dark">@cat.Name</span>
+                        }
+                    </div>
+                    <div class="mt-2">
+                        <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-secondary">Изменить</a>
+                        <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-sm btn-danger">Удалить</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
